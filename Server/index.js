@@ -6,11 +6,13 @@ const pg = require('pg');
 const spawn = require("child_process").spawn;
 const db = require('./queries');
 const mlModel = require('./mlmodel');
+const cors = require('cors');
 
 // Instancia do servidor
 const app = express();
 app.use(BodyParser.json());
 app.use(BodyParser.urlencoded({ 'extended': true }));
+app.use(cors());
 
 app.post('/test-model', (req, res) => {
     const args = req.body.args;
