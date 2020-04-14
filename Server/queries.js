@@ -19,10 +19,13 @@ const estacoes = [
     "bancadas"
 ];
 
+function isEstacao(estacao) {
+    return estacoes.includes(estacao)
+}
+
 
 const getMedLabprog = (dataInicio, dataFim, estacao) => {
-
-    if (!estacao || !estacoes.includes(estacao))
+    if (!estacao || !estacao.split(",").every(isEstacao))
         estacao = "*";
     else {
         estacao = "time, " + estacao;
@@ -54,4 +57,4 @@ const getMedLabprog = (dataInicio, dataFim, estacao) => {
     });
 };
 
-module.exports = { getMedLabprog };
+module.exports = { estacoes, getMedLabprog };

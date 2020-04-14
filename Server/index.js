@@ -45,8 +45,22 @@ app.get('/tarifa-branca', (req, res) => {
 //      dataFim (formato YYYY-MM-DDTHH:mm:ss)
 //      estacao (iluminacao, servidor, rede, ar_cond, bancadas)
 app.get('/medicoes', (req, res) => {
-    db.getMedLabprog(req.query.dataInicio, req.query.dataFim, req.query.estacao)
-        .then(data => res.send(data))
+    db.getMedLabprog(req.query.dataInicio, req.query.dataFim, req.query.estacaoList)
+        .then(medicoes => {
+            var result = {}
+            var estacaoList = req.query.estacaoList ? req.query.estacaoList.split(",") : db.estacoes;
+
+            estacaoList.forEach(function(estacao) {
+                result[estacao] = medicoes.map(medicao => {
+                        return {
+                            't': medicao.time,
+                            'y': medicao[estacao],
+                        }
+                    })
+            });
+
+            res.send(result);
+        })
         .catch(console.error);
 });
 
