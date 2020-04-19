@@ -6,13 +6,17 @@ FROM node:latest
 RUN apt-get update && apt-get -y install locales build-essential python3 python3-pip
 
 # INSTALA BeautifulSoup
+RUN pip3 install --upgrade pip
 RUN pip3 install beautifulsoup4
+RUN pip3 install requests
 
 # INICIA O SERVIDOR
 CMD ["node", "./Server/index.js"]
 
 # COPIA OS ARQUIVOS LOCAIS
 COPY . .
+
+RUN python3 ./TarifasWebScrapping/tarifas_web_scrapping.py
 
 # PORTA PADRAO DO APP
 EXPOSE 5000
