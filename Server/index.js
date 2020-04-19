@@ -31,7 +31,6 @@ app.get('/tarifa-branca', (req, res) => {
     if (horarioQuery)
         try {
             horario = moment(horarioQuery);
-            horario = moment(`${horario.hour() - 3}:${horario.minutes()}`, "HH:mm");
         } catch (error) {
             return res.status(500).send({ error: `Erro no formato do parametro horario. ${horarioQuery}` });
         }
@@ -47,8 +46,8 @@ app.get('/tarifa-branca', (req, res) => {
 app.get('/medicoes', (req, res) => {
     db.getMedLabprog(req.query.dataInicio, req.query.dataFim, req.query.estacaoList)
         .then(medicoes => {
-            var result = {}
-            var estacaoList = req.query.estacaoList ? req.query.estacaoList.split(",") : db.estacoes;
+            let result = {}
+            let estacaoList = req.query.estacaoList ? req.query.estacaoList.split(",") : db.estacoes;
 
             estacaoList.forEach(function(estacao) {
                 result[estacao] = medicoes.map(medicao => {
@@ -75,6 +74,33 @@ app.get('/valor', (req, res) => {
             let valores = tarifas.calcularValor(medicoes);
             console.log(valores)
             res.send(valores);
+        })
+        .catch(console.error);
+});
+
+// Obtém os valores calculados para o consumo ao longo do tempo em cada tipo de tarifa
+// Params:
+//      dataInicio (formato YYYY-MM-DDTHH:mm:ss)
+//      dataFim (formato YYYY-MM-DDTHH:mm:ss)
+//      estacao (iluminacao, servidor, rede, ar_cond, bancadas)
+// TODO
+app.get('/valoresTarifas', (req, res) => {
+    db.getMedLabprog(req.query.dataInicio, req.query.dataFim, req.query.estacaoList)
+        .then(medicoes => {
+            let estacaoList = req.query.estacaoList ? req.query.estacaoList.split(",") : db.estacoes;
+            let valores = tarifas.calcularValor(medicoes);
+            let consumo = 100;
+            //db.getConsumoTotal(req.query.dataInicio, req.query.dataFim, req.query.estacaoList)
+
+            let result = {
+                'labels': estacaoList,
+                'tarifa_branca': estacaoList.map(estacao => valores[estacao]),
+                'tarifa_vermelha': estacaoList.map(estacao => valores[estacao]), //tarifas.custoBandeiraVermelha(consumo),
+                'tarifa_amarela': estacaoList.map(estacao => valores[estacao]), //tarifas.custoBandeiraAmarela(consumo),
+                'tarifa_verde': estacaoList.map(estacao => valores[estacao]), //tarifas.custoBandeiraVerde(consumo),
+            }
+
+            res.send(result);
         })
         .catch(console.error);
 });
