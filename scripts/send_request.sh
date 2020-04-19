@@ -11,5 +11,7 @@
 
 # curl -q 'http://localhost:5000/medicoes?dataInicio=2020-03-19T10:00:00&dataFim=2020-03-19T10:00:10&estacao=rede'
 # curl -q 'http://localhost:5000/valor?dataInicio=2020-03-19T10:00:00&dataFim=2020-03-19T10:00:10&estacao=rede'
-curl -q 'http://localhost:5000/valor?dataInicio=2020-03-19T10:00:00&dataFim=2020-03-19T10:00:10'
+# curl -q 'http://localhost:5000/valor?dataInicio=2020-03-19T10:00:00&dataFim=2020-03-19T10:00:10'
+curl -q 'https://automacao-backend.azurewebsites.net/valor?dataInicio=2020-03-19T10:00:00&dataFim=2020-03-19T10:00:10'
+# curl -q 'https://automacao-backend.azurewebsites.net/medicoes?dataInicio=2020-03-19T10:00:00&dataFim=2020-03-19T10:00:10&estacao=rede'
 # curl -q 'http://localhost:5000/tarifa-branca?horario=2020-03-19T18:00:00'

@@ -8,7 +8,7 @@ const fimDeSemana = [0, 6];
 
 const pegarValoresTarifaBranca = () => {
     return new Promise((resolve, reject) => {
-        const pythonModel = spawn('python', ['./TarifasWebScrapping/tarifas_web_scrapping.py']);
+        const pythonModel = spawn('python3', ['./TarifasWebScrapping/tarifas_web_scrapping.py']);
         pythonModel.stdout.on('data', (data) => {
             let valores = data.toString().split(",");
             branca = {};
