@@ -57,26 +57,4 @@ const getMedLabprog = (dataInicio, dataFim, estacao) => {
     });
 };
 
-/*
-const getConsumoTotal = (dataInicio, dataFim, estacaoList) => {
-    estacaoList = estacaoList ? estacaoList.split(",") : estacoes;
-    let estacoes = estacaoList.map(estacao => 'SUM(' + estacao + ')')
-    console.log(JSON.stringify(estacoes))
-    
-    return new Promise((resolve, reject) => {
-        let dataInicioTratada = moment(dataInicio).format("YYYY-MM-DDTHH:mm:ss.SSSS[Z]");
-        let dataFimTratada = moment(dataFim).format("YYYY-MM-DDTHH:mm:ss.SSSS[Z]");
-
-        pool.query(`SELECT ${estacoes} FROM public.med_labsoft WHERE time BETWEEN '${dataInicioTratada}' AND '${dataFimTratada}' ORDER BY time ASC`, (error, results) => {
-            if (error) {
-                console.error(error);
-                return reject(error);
-            }
-            // console.log(results.rows);
-            resolve(results.rows);
-        })
-    });
-};
-*/
-
-module.exports = { estacoes, getMedLabprog, /*getConsumoTotal*/ };
+module.exports = { estacoes, getMedLabprog };

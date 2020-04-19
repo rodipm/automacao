@@ -89,19 +89,23 @@ app.get('/valoresTarifas', (req, res) => {
     db.getMedLabprog(req.query.dataInicio, req.query.dataFim, req.query.estacaoList)
         .then(medicoes => {
             let estacaoList = req.query.estacaoList ? req.query.estacaoList.split(",") : db.estacoes;
-            let valores = tarifas.calcularValor(medicoes);
-            let consumo = 100;
-            //db.getConsumoTotal(req.query.dataInicio, req.query.dataFim, req.query.estacaoList)
+            let consumo = tarifas.consumoTotal(medicoes);
 
-            let result = {
-                'labels': estacaoList,
-                'tarifa_branca': estacaoList.map(estacao => valores[estacao]),
-                'tarifa_vermelha': estacaoList.map(estacao => valores[estacao]), //tarifas.custoBandeiraVermelha(consumo),
-                'tarifa_amarela': estacaoList.map(estacao => valores[estacao]), //tarifas.custoBandeiraAmarela(consumo),
-                'tarifa_verde': estacaoList.map(estacao => valores[estacao]), //tarifas.custoBandeiraVerde(consumo),
-            }
+            let bandeiraVermelha = tarifas.custoBandeiraVermelha;
+            let bandeiraAmarela = tarifas.custoBandeiraAmarela;
+            let bandeiraVerde = tarifas.custoBandeiraVerde;
 
-            res.send(result);
+            tarifas.calcularValor(medicoes).then((bandeiraBranca) => {
+                let result = {
+                    'labels': estacaoList,
+                    'tarifa_branca': estacaoList.map(estacao => bandeiraBranca[estacao]),
+                    'tarifa_vermelha': estacaoList.map(estacao => bandeiraVermelha(consumo[estacao])),
+                    'tarifa_amarela': estacaoList.map(estacao => bandeiraAmarela(consumo[estacao])),
+                    'tarifa_verde': estacaoList.map(estacao => bandeiraVerde(consumo[estacao])),
+                }
+
+                res.send(result);
+            })
         })
         .catch(console.error);
 });

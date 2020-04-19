@@ -12,7 +12,7 @@ if __name__ == "__main__":
     tarifa_branca = tables[3]
 
     trs = tarifa_branca.findAll("tr")
-    precos = trs[-1]
+    precos = trs[4]
 
     tds = precos.findAll("td")
 
