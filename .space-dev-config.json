@@ -1,0 +1,37 @@
+{
+    "load": {
+        "vscode": [
+            "code ."
+        ]
+    },
+    "start": {
+        "vscode": [
+            "<<ctrl+shift+'>>cd driver-web",
+            "nodemon",
+            "<<ctrl+shift+'>>cd milla-gateway",
+            "nodemon",
+            "<<ctrl+shift+'>>cd ms-watson",
+            "nodemon"
+        ]
+    },
+    "scripts": {
+        "git-dev": [
+            "git add .",
+            "git commit -m \"[$(date +\"%D %T\")]Auto Commit\n $(git -c color.status=false status)\"",
+            "git push -u origin dev"
+        ],
+        "git-prod": [
+            "git add .",
+            "git commit -m \"[$(date +\"%D %T\")]Auto Commit\n $(git -c color.status=false status)\"",
+            "git push -u origin master"
+        ],
+        "git": [
+            "git add .",
+            "git commit -m \"[$(date +\"%D %T\")]Auto Commit\n $(git -c color.status=false status)\"",
+            "git push"
+        ],
+        "ibm-login": [
+            "ibmcloud login -u rmacharelli@masterdom.inf.br -p Siteropm1! && ibmcloud target --cf"
+        ]
+    }
+}

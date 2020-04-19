@@ -3,6 +3,9 @@ FROM node:latest
 # INSTALA PYTHON
 RUN apt-get update || : && apt-get install python -y
 
+# INSTALA BeautifulSoup
+RUN pip install beautifulsoup4
+
 # INICIA O SERVIDOR
 CMD ["node", "./Server/index.js"]
 

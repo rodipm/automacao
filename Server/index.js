@@ -50,13 +50,13 @@ app.get('/medicoes', (req, res) => {
             var result = {}
             var estacaoList = req.query.estacaoList ? req.query.estacaoList.split(",") : db.estacoes;
 
-            estacaoList.forEach(function(estacao) {
+            estacaoList.forEach(function (estacao) {
                 result[estacao] = medicoes.map(medicao => {
-                        return {
-                            't': medicao.time,
-                            'y': medicao[estacao],
-                        }
-                    })
+                    return {
+                        't': medicao.time,
+                        'y': medicao[estacao],
+                    }
+                })
             });
 
             res.send(result);
@@ -72,9 +72,10 @@ app.get('/medicoes', (req, res) => {
 app.get('/valor', (req, res) => {
     db.getMedLabprog(req.query.dataInicio, req.query.dataFim, req.query.estacao)
         .then(medicoes => {
-            let valores = tarifas.calcularValor(medicoes);
-            console.log(valores)
-            res.send(valores);
+            tarifas.calcularValor(medicoes).then(valores => {
+                console.log(valores)
+                res.send(valores);
+            });
         })
         .catch(console.error);
 });
