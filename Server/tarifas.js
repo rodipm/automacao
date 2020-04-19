@@ -24,18 +24,14 @@ const verificarTarifaBranca = (horario) => {
 
     const periodoPonta = [moment('17:30', 'HH:mm'), moment('20:30', 'HH:mm')];
     const periodoIntermediario = [moment('16:30', 'HH:mm'), moment('21:30', 'HH:mm')];
-    let horarioTratado;
-    if (!horario)
-        horarioTratado = moment().format('HH:mm');
+    let horarioTratado = horario ? horario : moment();
 
-    horarioTratado = moment(`${horario.hour() + 3}:${horario.minutes()}`, "HH:mm");
     if (horarioTratado >= periodoPonta[0] && horarioTratado <= periodoPonta[1])
         return "ponta"
     else if (horarioTratado >= periodoIntermediario[0] && horarioTratado <= periodoIntermediario[1])
         return "intermediario"
     else
         return "fora"
-
 }
 
 const calcularValor = (medicoes) => {
@@ -65,4 +61,10 @@ const calcularValor = (medicoes) => {
     })
 };
 
-module.exports = { verificarTarifaBranca, calcularValor };
+const custoBandeiraVermelha = (medicoes) => 3*medicoes;
+const custoBandeiraAmarela = (medicoes) => 2*medicoes;
+const custoBandeiraVerde = (medicoes) => 1*medicoes;
+
+
+
+module.exports = { verificarTarifaBranca, calcularValor, custoBandeiraVermelha, custoBandeiraAmarela, custoBandeiraVerde };
